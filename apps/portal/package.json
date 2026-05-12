@@ -1,0 +1,10 @@
+{
+  "name": "@outerbox/portal",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Internal PM portal — client intake form (Phase 1), AI review and approval (Phase 2)",
+  "scripts": {
+    "lint": "echo \"(portal) lint not yet configured\"",
+    "type-check": "echo \"(portal) type-check not yet configured\""
+  }
+}

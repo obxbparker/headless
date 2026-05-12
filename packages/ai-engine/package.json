@@ -1,0 +1,13 @@
+{
+  "name": "@outerbox/ai-engine",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Claude API integration: component arrangement, copy generation, SEO/GEO fields, Sanity population (Phase 2)",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": {
+    "lint": "echo \"(ai-engine) lint not yet configured\"",
+    "type-check": "echo \"(ai-engine) type-check not yet configured\""
+  }
+}

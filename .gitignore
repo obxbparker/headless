@@ -1,0 +1,41 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build output
+.next/
+.turbo/
+dist/
+out/
+build/
+
+# Environment variables (KEEP OUT OF GIT)
+.env
+.env.*
+!.env.example
+!.env.*.example
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Test
+coverage/
+.nyc_output/
+
+# Misc
+*.tsbuildinfo
+.cache/

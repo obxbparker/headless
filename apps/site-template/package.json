@@ -1,0 +1,10 @@
+{
+  "name": "@outerbox/site-template",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Base Next.js site template every client site is scaffolded from",
+  "scripts": {
+    "lint": "echo \"(site-template) lint not yet configured\"",
+    "type-check": "echo \"(site-template) type-check not yet configured\""
+  }
+}
