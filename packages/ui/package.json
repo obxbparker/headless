@@ -9,11 +9,17 @@
   "exports": {
     ".": "./src/index.ts",
     "./tokens": "./src/tokens/index.ts",
+    "./blocks": "./src/components/blocks/index.ts",
+    "./lib/cn": "./src/lib/cn.ts",
     "./tailwind.preset": "./tailwind.preset.ts"
   },
   "scripts": {
     "lint": "echo \"(ui) lint not yet configured\"",
     "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^2.5.5"
   },
   "peerDependencies": {
     "react": "^19.0.0",
