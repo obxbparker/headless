@@ -1,0 +1,105 @@
+import type { Config } from "tailwindcss";
+import {
+  colors,
+  fontFamilies,
+  fontSizes,
+  fontWeights,
+  gutters,
+  headingSizes,
+  layout,
+  letterSpacings,
+  lineHeights,
+  radii,
+  shadows,
+  space,
+} from "./src/tokens";
+
+const preset: Partial<Config> = {
+  theme: {
+    extend: {
+      colors: {
+        "dark-blue": colors.darkBlue,
+        "obx-blue": colors.obxBlue,
+        "deep-blue": colors.deepBlue,
+        frost: colors.frost,
+        orange: colors.orange,
+        gold: colors.gold,
+        slate: colors.slate,
+        grey: colors.grey,
+      },
+      fontFamily: {
+        sans: fontFamilies.body as unknown as string[],
+        heading: fontFamilies.heading as unknown as string[],
+      },
+      fontWeight: {
+        regular: String(fontWeights.regular),
+        bold: String(fontWeights.bold),
+        black: String(fontWeights.black),
+      },
+      fontSize: {
+        xs: fontSizes.xs,
+        sm: fontSizes.sm,
+        base: fontSizes.base,
+        md: fontSizes.md,
+        lg: fontSizes.lg,
+        xl: fontSizes.xl,
+        "2xl": fontSizes["2xl"],
+        "3xl": fontSizes["3xl"],
+        "heading-1": headingSizes.h1,
+        "heading-2": headingSizes.h2,
+        "heading-3": headingSizes.h3,
+        "heading-4": headingSizes.h4,
+        "heading-5": headingSizes.h5,
+        "heading-6": headingSizes.h6,
+        eyebrow: headingSizes.eyebrow,
+      },
+      lineHeight: {
+        tight: String(lineHeights.tight),
+        body: String(lineHeights.body),
+        none: String(lineHeights.none),
+      },
+      letterSpacing: {
+        normal: letterSpacings.normal,
+        eyebrow: letterSpacings.eyebrow,
+      },
+      spacing: {
+        xxs: space.xxs,
+        xs: space.xs,
+        sm: space.sm,
+        base: space.base,
+        md: space.md,
+        lg: space.lg,
+        xl: space.xl,
+        xxl: space.xxl,
+        "gutter-sm": gutters.sm,
+        "gutter-md": gutters.md,
+        "gutter-lg": gutters.lg,
+        "gutter-xl": gutters.xl,
+        "gutter-page": gutters.page,
+        "section-y": layout.sectionSpacing,
+      },
+      maxWidth: {
+        content: layout.contentMaxWidth,
+        body: layout.bodyMaxWidth,
+        page: layout.pageMaxWidth,
+      },
+      borderRadius: {
+        none: radii.none,
+        sm: radii.sm,
+        element: radii.element,
+        pill: radii.pill,
+        button: radii.button,
+        card: radii.card,
+        input: radii.input,
+        media: radii.media,
+      },
+      boxShadow: {
+        sm: shadows.sm,
+        md: shadows.md,
+        none: shadows.none,
+      },
+    },
+  },
+};
+
+export default preset;

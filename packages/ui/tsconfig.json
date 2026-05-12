@@ -1,0 +1,11 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "moduleResolution": "bundler",
+    "outDir": "dist",
+    "rootDir": "."
+  },
+  "include": ["src/**/*", "tailwind.preset.ts"],
+  "exclude": ["node_modules", "dist"]
+}
