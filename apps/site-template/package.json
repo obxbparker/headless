@@ -11,10 +11,16 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
+    "@outerbox/sanity-schemas": "workspace:*",
     "@outerbox/ui": "workspace:*",
+    "@sanity/image-url": "^1.1.0",
+    "@sanity/vision": "^3.74.1",
     "next": "^15.1.4",
+    "next-sanity": "^9.8.49",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "sanity": "^3.74.1",
+    "styled-components": "^6.1.14"
   },
   "devDependencies": {
     "@types/node": "^22.10.5",
