@@ -6,8 +6,20 @@
   "type": "module",
   "main": "./src/index.ts",
   "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./blocks": "./src/blocks/index.ts",
+    "./documents": "./src/documents/index.ts"
+  },
   "scripts": {
     "lint": "echo \"(sanity-schemas) lint not yet configured\"",
-    "type-check": "echo \"(sanity-schemas) type-check not yet configured\""
+    "type-check": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "sanity": "^3.74.0"
+  },
+  "devDependencies": {
+    "sanity": "^3.74.0",
+    "typescript": "^5.7.3"
   }
 }
