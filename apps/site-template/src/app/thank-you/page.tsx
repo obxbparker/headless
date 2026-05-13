@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+export const runtime = "edge";
+
 type SearchParams = Promise<{ ref?: string }>;
 
 const formTypeLabels: Record<string, string> = {

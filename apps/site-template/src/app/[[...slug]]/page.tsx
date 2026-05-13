@@ -4,6 +4,7 @@ import { sanityClient } from "@/sanity/client";
 import { pageBySlugQuery } from "@/sanity/queries";
 import { BlockRenderer } from "@/components/BlockRenderer";
 
+export const runtime = "edge";
 export const revalidate = 60;
 
 type PageDoc = {
