@@ -1,4 +1,4 @@
-import { Studio } from "./Studio";
+import StudioClient from "./StudioClient";
 
 export const runtime = "edge";
 export const dynamic = "force-static";
@@ -8,5 +8,5 @@ export const metadata = {
 };
 
 export default function StudioPage() {
-  return <Studio />;
+  return <StudioClient />;
 }
