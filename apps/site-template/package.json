@@ -4,7 +4,25 @@
   "private": true,
   "description": "Base Next.js site template every client site is scaffolded from",
   "scripts": {
-    "lint": "echo \"(site-template) lint not yet configured\"",
-    "type-check": "echo \"(site-template) type-check not yet configured\""
+    "dev": "next dev --port 3000",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@outerbox/ui": "workspace:*",
+    "next": "^15.1.4",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.5",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.5.1",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.7.3"
   }
 }

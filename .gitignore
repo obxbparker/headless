@@ -36,6 +36,13 @@ Thumbs.db
 coverage/
 .nyc_output/
 
+# Next.js
+next-env.d.ts
+
+# Tooling artifacts
+.playwright-mcp/
+demo-fullpage.png
+
 # Misc
 *.tsbuildinfo
 .cache/
