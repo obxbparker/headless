@@ -41,7 +41,7 @@ next-env.d.ts
 
 # Tooling artifacts
 .playwright-mcp/
-demo-fullpage.png
+/*.png
 
 # Misc
 *.tsbuildinfo
