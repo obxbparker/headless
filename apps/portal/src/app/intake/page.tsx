@@ -1,5 +1,8 @@
 import Link from "next/link";
 import { submitIntake } from "./actions";
+import { PortalChrome } from "@/components/PortalChrome";
+
+export const runtime = "edge";
 
 export const metadata = {
   title: "New client intake — OuterBox Portal",
@@ -16,6 +19,7 @@ const TONE_OPTIONS = [
 
 export default function IntakePage() {
   return (
+    <PortalChrome>
     <div className="mx-auto flex max-w-[820px] flex-col gap-xl">
       <header className="flex flex-col gap-sm">
         <p className="text-eyebrow font-bold uppercase tracking-eyebrow text-orange">
@@ -143,6 +147,7 @@ export default function IntakePage() {
         </div>
       </form>
     </div>
+    </PortalChrome>
   );
 }
 

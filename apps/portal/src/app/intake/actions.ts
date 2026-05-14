@@ -1,22 +1,20 @@
 "use server";
 
-import { mkdir, writeFile } from "node:fs/promises";
-import { join } from "node:path";
 import { redirect } from "next/navigation";
-
-const INTAKE_DIR = join(process.cwd(), "data", "intake");
+import { sanityWriteClient } from "@/sanity/client";
 
 function slugify(s: string) {
-  return s
-    .toLowerCase()
-    .trim()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "")
-    .slice(0, 40) || "client";
+  return (
+    s
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "")
+      .slice(0, 40) || "client"
+  );
 }
 
 function timestamp() {
-  // YYYYMMDD-HHmmss in UTC — sortable, filename-safe.
   const d = new Date();
   const pad = (n: number) => String(n).padStart(2, "0");
   return (
@@ -30,6 +28,13 @@ function timestamp() {
   );
 }
 
+function splitLines(value: unknown): string[] {
+  return String(value ?? "")
+    .split("\n")
+    .map((s) => s.trim())
+    .filter(Boolean);
+}
+
 export async function submitIntake(formData: FormData) {
   const entries = Object.fromEntries(formData.entries());
   const businessName = String(entries.businessName ?? "").trim();
@@ -37,14 +42,11 @@ export async function submitIntake(formData: FormData) {
     redirect("/intake?error=missing-business-name");
   }
 
-  const slug = slugify(businessName);
-  const ts = timestamp();
-  const id = `${ts}-${slug}`;
+  const id = `intake-${timestamp()}-${slugify(businessName)}`;
 
-  const payload = {
+  const doc = {
     _id: id,
-    _createdAt: new Date().toISOString(),
-    _source: "portal-intake-v1",
+    _type: "intake",
     businessName,
     industry: String(entries.industry ?? "").trim(),
     primaryDomain: String(entries.primaryDomain ?? "").trim(),
@@ -52,27 +54,18 @@ export async function submitIntake(formData: FormData) {
     targetAudience: String(entries.targetAudience ?? "").trim(),
     tone: String(entries.tone ?? "").trim(),
     toneNotes: String(entries.toneNotes ?? "").trim(),
-    services: String(entries.services ?? "")
-      .split("\n")
-      .map((s) => s.trim())
-      .filter(Boolean),
+    services: splitLines(entries.services),
     differentiators: String(entries.differentiators ?? "").trim(),
     serviceAreas: String(entries.serviceAreas ?? "").trim(),
     existingCopy: String(entries.existingCopy ?? "").trim(),
-    assetUrls: String(entries.assetUrls ?? "")
-      .split("\n")
-      .map((s) => s.trim())
-      .filter(Boolean),
+    assetUrls: splitLines(entries.assetUrls),
     sitemap: String(entries.sitemap ?? "").trim(),
     notes: String(entries.notes ?? "").trim(),
+    status: "new" as const,
   };
 
-  await mkdir(INTAKE_DIR, { recursive: true });
-  await writeFile(
-    join(INTAKE_DIR, `${id}.json`),
-    JSON.stringify(payload, null, 2),
-    "utf8",
-  );
+  const client = sanityWriteClient();
+  await client.create(doc);
 
   redirect(`/intake/${id}`);
 }

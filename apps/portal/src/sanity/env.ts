@@ -1,0 +1,24 @@
+function required(name: string, value: string | undefined): string {
+  if (!value) {
+    throw new Error(
+      `Missing env var ${name}. Add it to apps/portal/.env.local (see .env.local.example).`,
+    );
+  }
+  return value;
+}
+
+export const projectId = required(
+  "NEXT_PUBLIC_SANITY_PROJECT_ID",
+  process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
+);
+
+export const dataset = required(
+  "NEXT_PUBLIC_SANITY_DATASET",
+  process.env.NEXT_PUBLIC_SANITY_DATASET,
+);
+
+export const apiVersion =
+  process.env.NEXT_PUBLIC_SANITY_API_VERSION ?? "2026-05-14";
+
+/** Server-only — never bundled to the client. Used by intake server action. */
+export const writeToken = process.env.SANITY_WRITE_TOKEN;
