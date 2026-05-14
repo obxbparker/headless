@@ -1,0 +1,12 @@
+import StudioClient from "./StudioClient";
+
+export const runtime = "edge";
+export const dynamic = "force-static";
+export const revalidate = 0;
+export const metadata = {
+  title: "Studio — OuterBox Site Template",
+};
+
+export default function StudioPage() {
+  return <StudioClient />;
+}
