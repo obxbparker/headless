@@ -1,19 +1,26 @@
 import {
+  Callout,
+  ContentCarousel4Column,
+  Faq,
+  FormBlock,
+  Gallery,
   HeroBanner,
   MediaContent5050,
   ThreeColumnContent,
-  Callout,
-  FormBlock,
+  ValuePropBar,
 } from "@outerbox/ui";
+import { SiteChrome } from "@/components/SiteChrome";
+
+export const runtime = "edge";
 
 export const metadata = {
   title: "Component Demo — OuterBox Site Template",
-  description: "All 5 priority blocks rendered with sample content.",
+  description: "All 9 platform blocks rendered with sample content.",
 };
 
 export default function DemoPage() {
   return (
-    <main>
+    <SiteChrome>
       <HeroBanner
         eyebrow="Sample Client"
         heading="Roofing experts trusted across the Pacific Northwest"
@@ -28,6 +35,16 @@ export default function DemoPage() {
             aria-hidden
           />
         }
+      />
+
+      <ValuePropBar
+        background="frost"
+        items={[
+          { title: "25+ years", body: "Family-owned since 1998" },
+          { title: "Fully licensed", body: "OR CCB #123456 · WA #ROOFER123XX" },
+          { title: "50-year warranty", body: "Workmanship guaranteed in writing" },
+          { title: "Same-day quotes", body: "Most estimates within 24 hours" },
+        ]}
       />
 
       <MediaContent5050
@@ -75,6 +92,39 @@ export default function DemoPage() {
         />
       </div>
 
+      <ContentCarousel4Column
+        eyebrow="Recent projects"
+        heading="A few jobs we're proud of"
+        body="Scroll through a slice of the work we've finished in the last 12 months."
+        cta={{ label: "Full portfolio", href: "#" }}
+        items={[
+          {
+            title: "Beaverton ranch re-roof",
+            description: "Tear-off and full architectural shingle replacement on a 2,400 sq ft ranch.",
+            href: "#",
+            media: <img src="https://picsum.photos/seed/obx-c1/800/600" alt="" aria-hidden />,
+          },
+          {
+            title: "Portland commercial TPO",
+            description: "20,000 sq ft TPO membrane install with extended manufacturer warranty.",
+            href: "#",
+            media: <img src="https://picsum.photos/seed/obx-c2/800/600" alt="" aria-hidden />,
+          },
+          {
+            title: "Lake Oswego standing seam",
+            description: "Custom standing-seam metal roof with snow guards and gutters.",
+            href: "#",
+            media: <img src="https://picsum.photos/seed/obx-c3/800/600" alt="" aria-hidden />,
+          },
+          {
+            title: "Vancouver storm repair",
+            description: "Emergency tarp + full re-shingle after a 2024 windstorm. Insurance assist.",
+            href: "#",
+            media: <img src="https://picsum.photos/seed/obx-c4/800/600" alt="" aria-hidden />,
+          },
+        ]}
+      />
+
       <MediaContent5050
         eyebrow="Our process"
         heading="No surprises, ever."
@@ -92,6 +142,21 @@ export default function DemoPage() {
         }
       />
 
+      <Gallery
+        eyebrow="Before & after"
+        heading="See the difference"
+        body="A small sample of recent jobs across residential and commercial projects."
+        layout="grid-3"
+        items={[
+          { image: <img src="https://picsum.photos/seed/obx-g1/900/675" alt="" aria-hidden />, caption: "Asphalt shingle replacement, Tigard" },
+          { image: <img src="https://picsum.photos/seed/obx-g2/900/675" alt="" aria-hidden />, caption: "Metal roof install, Hood River" },
+          { image: <img src="https://picsum.photos/seed/obx-g3/900/675" alt="" aria-hidden />, caption: "Flat-roof TPO, SE Portland" },
+          { image: <img src="https://picsum.photos/seed/obx-g4/900/675" alt="" aria-hidden />, caption: "Cedar shake, Lake Oswego" },
+          { image: <img src="https://picsum.photos/seed/obx-g5/900/675" alt="" aria-hidden />, caption: "Skylight retrofit, Beaverton" },
+          { image: <img src="https://picsum.photos/seed/obx-g6/900/675" alt="" aria-hidden />, caption: "Gutter + downspout replacement" },
+        ]}
+      />
+
       <Callout
         eyebrow="Limited spots"
         heading="Booking now for late summer installs"
@@ -100,6 +165,34 @@ export default function DemoPage() {
         secondaryCta={{ label: "Call (555) 123-4567", href: "tel:5551234567" }}
         background="obx-blue"
         headingLevel="h2"
+      />
+
+      <Faq
+        eyebrow="FAQs"
+        heading="Questions we hear a lot"
+        body="If we missed yours, give us a call — straight answers, no pressure."
+        items={[
+          {
+            question: "How long does a full roof replacement take?",
+            answer:
+              "Most residential tear-off and re-roofs take 2–3 days from setup to cleanup. Larger or more complex jobs may run 4–5 days. Weather and access can shift the schedule.",
+          },
+          {
+            question: "Do you offer financing?",
+            answer:
+              "Yes. We partner with a regional lender to offer 0%-down financing on qualified roof replacements, with terms from 24 to 84 months. We'll walk you through options during your estimate.",
+          },
+          {
+            question: "What warranty do you provide?",
+            answer:
+              "Our standard workmanship warranty is 50 years and fully transferable. Manufacturer material warranties are passed through directly — typically 25–50 years depending on the product.",
+          },
+          {
+            question: "Are you licensed and insured?",
+            answer:
+              "Yes. Oregon CCB #123456 and Washington #ROOFER123XX. We carry $2M general liability and full workers' comp on every job.",
+          },
+        ]}
       />
 
       <div id="form">
@@ -142,6 +235,6 @@ export default function DemoPage() {
           submitLabel="Send message"
         />
       </div>
-    </main>
+    </SiteChrome>
   );
 }

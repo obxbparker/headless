@@ -1,11 +1,15 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { buildFaqJsonLd, type FaqItem } from "@outerbox/ui";
 import { sanityClient } from "@/sanity/client";
 import { pageBySlugQuery } from "@/sanity/queries";
 import { BlockRenderer } from "@/components/BlockRenderer";
+import { SiteChrome } from "@/components/SiteChrome";
 
 export const runtime = "edge";
 export const revalidate = 60;
+
+type PageBlock = { _type: string; _key: string; [k: string]: unknown };
 
 type PageDoc = {
   _id: string;
@@ -15,7 +19,7 @@ type PageDoc = {
     title?: string;
     description?: string;
   };
-  blocks?: Array<{ _type: string; _key: string; [k: string]: unknown }>;
+  blocks?: PageBlock[];
 };
 
 async function getPage(slug: string): Promise<PageDoc | null> {
@@ -48,6 +52,21 @@ export async function generateMetadata({
   };
 }
 
+function collectFaqItems(blocks: PageBlock[] | undefined): FaqItem[] {
+  if (!blocks?.length) return [];
+  const out: FaqItem[] = [];
+  for (const block of blocks) {
+    if (block._type !== "faq") continue;
+    const items = (block as unknown as { items?: FaqItem[] }).items;
+    if (Array.isArray(items)) {
+      for (const item of items) {
+        if (item?.question && item?.answer) out.push(item);
+      }
+    }
+  }
+  return out;
+}
+
 export default async function Page({
   params,
 }: {
@@ -58,16 +77,36 @@ export default async function Page({
   const page = await getPage(slugString);
 
   if (!page) {
-    if (slugString === "home") return <EmptyHome />;
+    if (slugString === "home") {
+      return (
+        <SiteChrome>
+          <EmptyHome />
+        </SiteChrome>
+      );
+    }
     notFound();
   }
 
-  return <BlockRenderer blocks={page.blocks ?? []} />;
+  const faqItems = collectFaqItems(page.blocks);
+
+  return (
+    <SiteChrome>
+      {faqItems.length > 0 && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(buildFaqJsonLd(faqItems)),
+          }}
+        />
+      )}
+      <BlockRenderer blocks={page.blocks ?? []} />
+    </SiteChrome>
+  );
 }
 
 function EmptyHome() {
   return (
-    <main className="mx-auto flex min-h-screen max-w-content flex-col items-start justify-center gap-md px-gutter-xl py-section-y">
+    <div className="mx-auto flex min-h-[60vh] max-w-content flex-col items-start justify-center gap-md px-gutter-xl py-section-y">
       <p className="text-eyebrow font-bold uppercase tracking-eyebrow text-orange">
         OuterBox Platform
       </p>
@@ -93,6 +132,6 @@ function EmptyHome() {
           View static demo
         </Link>
       </div>
-    </main>
+    </div>
   );
 }

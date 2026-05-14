@@ -14,7 +14,8 @@ const blockProjection = `
   items[]{
     ...,
     image ${imageProjection},
-    icon ${imageProjection}
+    icon ${imageProjection},
+    media ${imageProjection}
   },
   contactInfo,
   fields[]
@@ -41,6 +42,22 @@ export const siteSettingsQuery = groq`
   ...,
   logo ${imageProjection},
   logoOnDark ${imageProjection},
+  contactInfo,
+  mainNav{
+    links[]{ label, href },
+    primaryCta ${ctaProjection}
+  },
+  utilityBar{
+    secondaryCta ${ctaProjection}
+  },
+  footer{
+    columns[]{
+      heading,
+      links[]{ label, href }
+    },
+    legalText
+  },
+  socialLinks[]{ platform, href },
   defaultSeo
 }
 `;

@@ -10,6 +10,13 @@ import {
   formFieldSchema,
   formContactInfoSchema,
 } from "./form";
+import { valuePropBarSchema, valuePropItemSchema } from "./valuePropBar";
+import { faqSchema, faqItemSchema } from "./faq";
+import {
+  contentCarousel4ColumnSchema,
+  contentCarouselItemSchema,
+} from "./contentCarousel4Column";
+import { gallerySchema, galleryItemSchema } from "./gallery";
 
 export {
   heroBannerSchema,
@@ -20,13 +27,25 @@ export {
   formSchema,
   formFieldSchema,
   formContactInfoSchema,
+  valuePropBarSchema,
+  valuePropItemSchema,
+  faqSchema,
+  faqItemSchema,
+  contentCarousel4ColumnSchema,
+  contentCarouselItemSchema,
+  gallerySchema,
+  galleryItemSchema,
 };
 
 export const blockSchemas = [
   heroBannerSchema,
+  valuePropBarSchema,
   mediaContent5050Schema,
   threeColumnContentSchema,
+  contentCarousel4ColumnSchema,
+  gallerySchema,
   calloutSchema,
+  faqSchema,
   formSchema,
 ];
 
@@ -34,6 +53,10 @@ export const blockSupportingSchemas = [
   threeColumnItemSchema,
   formFieldSchema,
   formContactInfoSchema,
+  valuePropItemSchema,
+  faqItemSchema,
+  contentCarouselItemSchema,
+  galleryItemSchema,
 ];
 
 export const blockTypeNames = blockSchemas.map((s) => s.name);

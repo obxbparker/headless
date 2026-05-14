@@ -1,16 +1,24 @@
 import Image from "next/image";
 import {
   Callout,
+  ContentCarousel4Column,
+  Faq,
   FormBlock,
+  Gallery,
   HeroBanner,
   MediaContent5050,
   ThreeColumnContent,
+  ValuePropBar,
+  type CalloutProps,
+  type ContentCarousel4ColumnProps,
+  type FaqProps,
+  type FormBlockProps,
   type FormField,
+  type GalleryProps,
   type HeroBannerProps,
   type MediaContent5050Props,
   type ThreeColumnContentProps,
-  type CalloutProps,
-  type FormBlockProps,
+  type ValuePropBarProps,
 } from "@outerbox/ui";
 import { imageSrc, type SanityImageWithAlt } from "@/sanity/image";
 
@@ -73,6 +81,26 @@ export function BlockRenderer({ blocks }: { blocks: SanityBlock[] }) {
               />
             );
           }
+          case "value-prop-bar": {
+            const b = block as unknown as Omit<ValuePropBarProps, "items"> & {
+              items: Array<{
+                title: string;
+                body?: string;
+                icon?: SanityImageWithAlt;
+              }>;
+            };
+            return (
+              <ValuePropBar
+                key={block._key}
+                background={b.background}
+                items={b.items.map((item) => ({
+                  title: item.title,
+                  body: item.body,
+                  icon: item.icon ? <SanityImg image={item.icon} width={64} height={64} /> : undefined,
+                }))}
+              />
+            );
+          }
           case "media-content-50-50": {
             const b = block as unknown as MediaContent5050Props & {
               media?: SanityImageWithAlt;
@@ -122,6 +150,53 @@ export function BlockRenderer({ blocks }: { blocks: SanityBlock[] }) {
               />
             );
           }
+          case "content-carousel-4-column": {
+            const b = block as unknown as Omit<ContentCarousel4ColumnProps, "items"> & {
+              items: Array<{
+                title: string;
+                description?: string;
+                href?: string;
+                media?: SanityImageWithAlt;
+              }>;
+            };
+            return (
+              <ContentCarousel4Column
+                key={block._key}
+                eyebrow={b.eyebrow}
+                heading={b.heading}
+                body={b.body}
+                cta={b.cta}
+                background={b.background}
+                items={b.items.map((item) => ({
+                  title: item.title,
+                  description: item.description,
+                  href: item.href,
+                  media: item.media ? <SanityImg image={item.media} width={600} /> : undefined,
+                }))}
+              />
+            );
+          }
+          case "gallery": {
+            const b = block as unknown as Omit<GalleryProps, "items"> & {
+              items: Array<{ image: SanityImageWithAlt; caption?: string }>;
+            };
+            return (
+              <Gallery
+                key={block._key}
+                eyebrow={b.eyebrow}
+                heading={b.heading}
+                body={b.body}
+                layout={b.layout}
+                background={b.background}
+                items={b.items
+                  .filter((item) => Boolean(item.image?.asset))
+                  .map((item) => ({
+                    image: <SanityImg image={item.image} width={900} />,
+                    caption: item.caption,
+                  }))}
+              />
+            );
+          }
           case "callout": {
             const b = block as unknown as CalloutProps;
             return (
@@ -134,6 +209,19 @@ export function BlockRenderer({ blocks }: { blocks: SanityBlock[] }) {
                 secondaryCta={b.secondaryCta}
                 background={b.background}
                 headingLevel={b.headingLevel}
+              />
+            );
+          }
+          case "faq": {
+            const b = block as unknown as FaqProps;
+            return (
+              <Faq
+                key={block._key}
+                eyebrow={b.eyebrow}
+                heading={b.heading}
+                body={b.body}
+                background={b.background}
+                items={b.items}
               />
             );
           }
