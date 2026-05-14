@@ -6,12 +6,9 @@ import { pageBySlugQuery } from "@/sanity/queries";
 import { BlockRenderer } from "@/components/BlockRenderer";
 import { SiteChrome } from "@/components/SiteChrome";
 
-export const runtime = "edge";
-export const revalidate = 60;
-
 type PageBlock = { _type: string; _key: string; [k: string]: unknown };
 
-type PageDoc = {
+export type PageDoc = {
   _id: string;
   title: string;
   slug: string;
@@ -22,7 +19,7 @@ type PageDoc = {
   blocks?: PageBlock[];
 };
 
-async function getPage(slug: string): Promise<PageDoc | null> {
+export async function getPage(slug: string): Promise<PageDoc | null> {
   try {
     return await sanityClient.fetch<PageDoc | null>(pageBySlugQuery, { slug });
   } catch (err) {
@@ -33,13 +30,7 @@ async function getPage(slug: string): Promise<PageDoc | null> {
   }
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ slug?: string[] }>;
-}) {
-  const { slug } = await params;
-  const slugString = slug?.join("/") || "home";
+export async function metadataForSlug(slugString: string) {
   const page = await getPage(slugString);
   if (!page) {
     return slugString === "home"
@@ -67,13 +58,7 @@ function collectFaqItems(blocks: PageBlock[] | undefined): FaqItem[] {
   return out;
 }
 
-export default async function Page({
-  params,
-}: {
-  params: Promise<{ slug?: string[] }>;
-}) {
-  const { slug } = await params;
-  const slugString = slug?.join("/") || "home";
+export async function renderSanityPage(slugString: string) {
   const page = await getPage(slugString);
 
   if (!page) {
