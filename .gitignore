@@ -47,3 +47,6 @@ next-env.d.ts
 # Misc
 *.tsbuildinfo
 .cache/
+
+# Portal intake submissions (may contain client PII — keep out of git)
+apps/portal/data/intake/*.json
