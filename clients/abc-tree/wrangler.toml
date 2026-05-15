@@ -1,0 +1,11 @@
+name = "abc-tree"
+compatibility_date = "2025-09-01"
+compatibility_flags = ["nodejs_compat"]
+pages_build_output_dir = ".vercel/output/static"
+
+# Public Sanity project IDs baked into the deployment.
+# No write token in prod — the site only reads from Sanity.
+[vars]
+NEXT_PUBLIC_SANITY_PROJECT_ID = "bz5vifo6"
+NEXT_PUBLIC_SANITY_DATASET = "production"
+NEXT_PUBLIC_SANITY_API_VERSION = "2026-05-14"
