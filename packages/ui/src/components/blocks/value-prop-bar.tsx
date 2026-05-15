@@ -43,7 +43,7 @@ export function ValuePropBar({
     >
       <ul
         className={cn(
-          "mx-auto grid max-w-content list-none gap-lg p-0 m-0",
+          "mx-auto grid max-w-content list-none gap-lg p-0 my-0",
           items.length >= 4
             ? "sm:grid-cols-2 lg:grid-cols-4"
             : items.length === 3

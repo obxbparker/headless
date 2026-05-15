@@ -23,7 +23,11 @@ type SiteSettings = {
     hours?: string;
   };
   mainNav?: {
-    links?: Array<{ label: string; href: string }>;
+    links?: Array<{
+      label: string;
+      href: string;
+      children?: Array<{ label: string; href: string }>;
+    }>;
     primaryCta?: CtaRef;
   };
   utilityBar?: {

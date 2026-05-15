@@ -1,5 +1,25 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
 
+const navChildLinkObject = defineArrayMember({
+  type: "object",
+  name: "navChildLink",
+  fields: [
+    defineField({
+      name: "label",
+      type: "string",
+      validation: (Rule) => Rule.required().max(40),
+    }),
+    defineField({
+      name: "href",
+      type: "string",
+      description:
+        "Internal links start with /, external with https://, phone with tel:, email with mailto:.",
+      validation: (Rule) => Rule.required(),
+    }),
+  ],
+  preview: { select: { title: "label", subtitle: "href" } },
+});
+
 const navLinkObject = defineArrayMember({
   type: "object",
   name: "navLink",
@@ -16,8 +36,22 @@ const navLinkObject = defineArrayMember({
         "Internal links start with /, external with https://, phone with tel:, email with mailto:.",
       validation: (Rule) => Rule.required(),
     }),
+    defineField({
+      name: "children",
+      title: "Dropdown links (optional)",
+      type: "array",
+      of: [navChildLinkObject],
+      description:
+        "If set, this nav item becomes a parent that opens a dropdown of these links on hover/focus.",
+    }),
   ],
-  preview: { select: { title: "label", subtitle: "href" } },
+  preview: {
+    select: { title: "label", subtitle: "href", count: "children.length" },
+    prepare: ({ title, subtitle, count }) => ({
+      title: title || "Nav link",
+      subtitle: count ? `${subtitle} — ${count} child link${count === 1 ? "" : "s"}` : subtitle,
+    }),
+  },
 });
 
 export const siteSettingsSchema = defineType({

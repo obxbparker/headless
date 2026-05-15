@@ -44,7 +44,11 @@ export const siteSettingsQuery = groq`
   logoOnDark ${imageProjection},
   contactInfo,
   mainNav{
-    links[]{ label, href },
+    links[]{
+      label,
+      href,
+      children[]{ label, href }
+    },
     primaryCta ${ctaProjection}
   },
   utilityBar{

@@ -40,7 +40,7 @@ export function HeroBanner({
     <section
       data-block="hero-banner"
       className={cn(
-        "relative isolate flex min-h-[600px] w-full items-center justify-center overflow-hidden py-section-y",
+        "relative isolate flex min-h-[600px] w-full items-center justify-center overflow-hidden px-gutter-xl py-section-y",
         isSolid && "bg-dark-blue",
         className,
       )}
@@ -58,7 +58,7 @@ export function HeroBanner({
 
       <div
         className={cn(
-          "relative mx-auto flex w-full max-w-content flex-col gap-md px-gutter-sm",
+          "relative mx-auto flex w-full max-w-content flex-col gap-md",
           align === "center" ? "items-center text-center" : "items-start text-left",
         )}
       >

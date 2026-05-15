@@ -70,7 +70,7 @@ export function MediaContent5050({
     >
       <div
         className={cn(
-          "mx-auto flex max-w-page flex-wrap items-center gap-xxl",
+          "mx-auto flex max-w-content flex-wrap items-center gap-xxl",
           !hasMedia && "justify-center",
         )}
       >

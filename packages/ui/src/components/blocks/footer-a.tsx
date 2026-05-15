@@ -37,9 +37,9 @@ export function FooterA({
   return (
     <footer
       data-block="footer-a"
-      className={cn("w-full bg-dark-blue text-white", className)}
+      className={cn("w-full bg-dark-blue text-white px-gutter-xl", className)}
     >
-      <div className="mx-auto flex max-w-content flex-col gap-xxl px-gutter-xl py-section-y">
+      <div className="mx-auto flex max-w-content flex-col gap-xxl py-section-y">
         <div className="grid grid-cols-1 gap-xl md:grid-cols-[minmax(0,1fr)_minmax(0,2fr)]">
           <div className="flex flex-col gap-md">
             <div className="text-white">

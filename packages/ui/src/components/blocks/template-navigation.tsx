@@ -30,11 +30,11 @@ export function TemplateNavigation({
     <div
       data-block="template-navigation"
       className={cn(
-        "hidden w-full bg-dark-blue text-white md:block",
+        "hidden w-full bg-dark-blue text-white md:block px-gutter-xl",
         className,
       )}
     >
-      <div className="mx-auto flex max-w-content items-center justify-between gap-md px-gutter-xl py-xs text-small">
+      <div className="mx-auto flex max-w-content items-center justify-between gap-md py-xs text-small">
         <ul className="flex flex-wrap items-center gap-md list-none p-0 m-0">
           {phone && (
             <li>
