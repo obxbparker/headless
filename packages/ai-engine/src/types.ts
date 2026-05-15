@@ -67,7 +67,11 @@ export type GeneratedSiteSettings = {
     hours?: string;
   };
   mainNav?: {
-    links?: { label: string; href: string }[];
+    links?: {
+      label: string;
+      href: string;
+      children?: { label: string; href: string }[];
+    }[];
     primaryCta?: CtaOutput;
   };
   utilityBar?: {

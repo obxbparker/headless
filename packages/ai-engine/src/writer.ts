@@ -164,7 +164,14 @@ function normalizeSiteSettings(settings: GeneratedSiteSettings): Record<string, 
   if (settings.contactInfo) out.contactInfo = settings.contactInfo;
   if (settings.mainNav) {
     out.mainNav = {
-      links: (settings.mainNav.links ?? []).map((l) => ({ _key: randKey(), ...l })),
+      links: (settings.mainNav.links ?? []).map((l) => ({
+        _key: randKey(),
+        label: l.label,
+        href: l.href,
+        ...(l.children?.length
+          ? { children: l.children.map((c) => ({ _key: randKey(), ...c })) }
+          : {}),
+      })),
       primaryCta: settings.mainNav.primaryCta,
     };
   }

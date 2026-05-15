@@ -4,6 +4,7 @@ import { visionTool } from "@sanity/vision";
 import { apiVersion, dataset, projectId } from "./env";
 import { schemaTypes } from "./schema";
 import { structure } from "./structure";
+import { GenerateAction } from "./actions/generateAction";
 
 export default defineConfig({
   name: "default",
@@ -12,6 +13,10 @@ export default defineConfig({
   projectId,
   dataset,
   schema: { types: schemaTypes },
+  document: {
+    actions: (prev, context) =>
+      context.schemaType === "intake" ? [GenerateAction, ...prev] : prev,
+  },
   plugins: [
     structureTool({ structure }),
     visionTool({ defaultApiVersion: apiVersion }),

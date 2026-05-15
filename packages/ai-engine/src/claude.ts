@@ -1,16 +1,12 @@
 import Anthropic from "@anthropic-ai/sdk";
-import { config } from "./config.js";
 
-let client: Anthropic | null = null;
-
-function getClient(): Anthropic {
-  if (!client) {
-    client = new Anthropic({ apiKey: config.anthropic.apiKey() });
-  }
-  return client;
+export function createAnthropic(apiKey: string): Anthropic {
+  return new Anthropic({ apiKey });
 }
 
 export type GenerateOptions = {
+  client: Anthropic;
+  model: string;
   systemBlocks: { text: string; cache?: boolean }[];
   userMessage: string;
   maxTokens?: number;
@@ -34,7 +30,6 @@ function extractJson(raw: string): string {
   const trimmed = raw.trim();
   const fenced = trimmed.match(JSON_BLOCK_RE);
   if (fenced && fenced[1]) return fenced[1].trim();
-  // Find the first { or [ and slice from there.
   const firstBrace = Math.min(
     ...["{", "["]
       .map((c) => trimmed.indexOf(c))
@@ -47,9 +42,6 @@ function extractJson(raw: string): string {
 }
 
 export async function generateJson<T>(opts: GenerateOptions): Promise<GenerateResult<T>> {
-  const anthropic = getClient();
-  const model = config.anthropic.model();
-
   const systemBlocks = opts.systemBlocks.map((block) =>
     block.cache
       ? {
@@ -60,8 +52,8 @@ export async function generateJson<T>(opts: GenerateOptions): Promise<GenerateRe
       : { type: "text" as const, text: block.text },
   );
 
-  const response = await anthropic.messages.create({
-    model,
+  const response = await opts.client.messages.create({
+    model: opts.model,
     max_tokens: opts.maxTokens ?? 4096,
     temperature: opts.temperature ?? 0.6,
     system: systemBlocks,

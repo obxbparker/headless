@@ -1,3 +1,4 @@
+import type Anthropic from "@anthropic-ai/sdk";
 import { generateJson } from "./claude.js";
 import type {
   GeneratedSiteSettings,
@@ -22,6 +23,7 @@ Rules:
 type AiSettingsOutput = { tagline: string; llmsTxt: string };
 
 export async function generateSettings(
+  claude: { client: Anthropic; model: string },
   context: SiteContext,
   pages: GeneratedPage[],
 ): Promise<GeneratedSiteSettings> {
@@ -41,6 +43,8 @@ export async function generateSettings(
     .join("\n");
 
   const { parsed } = await generateJson<AiSettingsOutput>({
+    client: claude.client,
+    model: claude.model,
     systemBlocks: [{ text: SYSTEM }],
     userMessage: `Intake:\n${intakeSummary}\n\nProduce the JSON object now.`,
     maxTokens: 1024,
@@ -50,10 +54,7 @@ export async function generateSettings(
   // Build deterministic structural fields from the intake + sitemap.
   const phone = extractPhone(intake);
   const email = context.destinationEmail;
-  const navLinks = pages
-    .filter((p) => p.slug !== "home")
-    .slice(0, 6)
-    .map((p) => ({ label: p.title, href: `/${p.slug}` }));
+  const navLinks = buildNavTree(pages);
 
   const settings: GeneratedSiteSettings = {
     businessName: intake.businessName,
@@ -85,6 +86,24 @@ export async function generateSettings(
   };
 
   return settings;
+}
+
+function buildNavTree(
+  pages: GeneratedPage[],
+): { label: string; href: string; children?: { label: string; href: string }[] }[] {
+  const nonHome = pages.filter((p) => p.slug !== "home");
+  const topLevel = nonHome.filter((p) => !p.slug.includes("/"));
+
+  return topLevel.slice(0, 6).map((parent) => {
+    const children = nonHome
+      .filter((p) => p.slug.startsWith(`${parent.slug}/`))
+      .map((c) => ({ label: c.title, href: `/${c.slug}` }));
+    return {
+      label: parent.title,
+      href: `/${parent.slug}`,
+      ...(children.length > 0 ? { children } : {}),
+    };
+  });
 }
 
 function extractPhone(intake: { notes?: string; existingCopy?: string }): string | undefined {

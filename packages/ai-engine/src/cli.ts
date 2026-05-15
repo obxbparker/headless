@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 import { Command } from "commander";
+import { loadCliCredentials } from "./config-node.js";
 import { generate } from "./orchestrator.js";
-import { listIntakes } from "./portal.js";
+import { createPortalClient, listIntakes } from "./portal.js";
 
 const program = new Command();
 program
@@ -32,6 +33,7 @@ program
       console.log(`Assets uploaded       : ${report.assetsUploaded}`);
       console.log(`Tokens in / out       : ${report.tokensIn} / ${report.tokensOut}`);
       console.log(`Cache reads           : ${report.cacheReads}`);
+      console.log(`Duration              : ${(report.durationMs / 1000).toFixed(1)}s`);
 
       if (opts.dryRun && report.preview) {
         console.log("\n===== Preview (first page only) =====");
@@ -49,7 +51,11 @@ program
   .option("--limit <n>", "Max number to show", (v) => parseInt(v, 10), 20)
   .action(async (opts: { limit: number }) => {
     try {
-      const intakes = await listIntakes(opts.limit);
+      // Reuse the CLI credential loader, but we only need the portal half.
+      // Use a placeholder slug to satisfy the loader; we don't read target env here.
+      const creds = loadCliCredentials("smoketest-roofing");
+      const client = createPortalClient(creds.portal);
+      const intakes = await listIntakes(client, opts.limit);
       if (intakes.length === 0) {
         console.log("(no intakes found)");
         return;

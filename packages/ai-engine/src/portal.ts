@@ -1,27 +1,24 @@
 import { createClient, type SanityClient } from "@sanity/client";
-import { config } from "./config.js";
+import type { PortalEnv } from "./config.js";
 import type { Intake } from "./types.js";
 
-let _client: SanityClient | null = null;
-
-export function portalClient(): SanityClient {
-  if (!_client) {
-    _client = createClient({
-      projectId: config.portal.projectId(),
-      dataset: config.portal.dataset(),
-      apiVersion: config.portal.apiVersion(),
-      token: config.portal.token(),
-      useCdn: false,
-    });
-  }
-  return _client;
+export function createPortalClient(env: PortalEnv): SanityClient {
+  return createClient({
+    projectId: env.projectId,
+    dataset: env.dataset,
+    apiVersion: env.apiVersion,
+    token: env.token,
+    useCdn: false,
+  });
 }
 
-export async function fetchIntake(intakeId: string): Promise<Intake> {
-  const client = portalClient();
+export async function fetchIntake(
+  client: SanityClient,
+  intakeId: string,
+): Promise<Intake> {
   const doc = await client.getDocument(intakeId);
   if (!doc || doc._type !== "intake") {
-    throw new Error(`No intake doc found for id "${intakeId}" in portal Sanity (${config.portal.projectId()}).`);
+    throw new Error(`No intake doc found for id "${intakeId}" in portal Sanity.`);
   }
   return doc as unknown as Intake;
 }
@@ -34,11 +31,12 @@ export type IntakeSummary = {
   _createdAt?: string;
 };
 
-export async function listIntakes(limit = 20): Promise<IntakeSummary[]> {
-  const client = portalClient();
+export async function listIntakes(
+  client: SanityClient,
+  limit = 20,
+): Promise<IntakeSummary[]> {
   const query = `*[_type == "intake"] | order(_createdAt desc)[0...$limit]{
     _id, businessName, industry, status, _createdAt
   }`;
-  const results = await client.fetch<IntakeSummary[]>(query, { limit });
-  return results;
+  return client.fetch<IntakeSummary[]>(query, { limit });
 }

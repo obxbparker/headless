@@ -1,3 +1,4 @@
+import type Anthropic from "@anthropic-ai/sdk";
 import { blockCatalogue } from "./block-reference.js";
 import { generateJson } from "./claude.js";
 import type { GeneratedPage, PageIntent, SiteContext } from "./types.js";
@@ -70,6 +71,7 @@ function buildSiteContextBlock(context: SiteContext): string {
 }
 
 export async function generatePage(
+  claude: { client: Anthropic; model: string },
   context: SiteContext,
   page: PageIntent,
 ): Promise<{ result: GeneratedPage; tokens: { in: number; out: number; cacheRead?: number; cacheCreation?: number } }> {
@@ -83,6 +85,8 @@ export async function generatePage(
   ].join("\n");
 
   const { parsed, usage } = await generateJson<GeneratedPage>({
+    client: claude.client,
+    model: claude.model,
     systemBlocks: [
       { text: `${SYSTEM_ROLE}\n\n${blockCatalogue}`, cache: true },
       { text: buildSiteContextBlock(context), cache: true },

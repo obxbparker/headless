@@ -13,7 +13,9 @@
     "pages:deploy": "wrangler pages deploy .vercel/output/static"
   },
   "dependencies": {
+    "@outerbox/ai-engine": "workspace:*",
     "@outerbox/ui": "workspace:*",
+    "@sanity/ui": "^3.2.0",
     "@sanity/vision": "^3.74.1",
     "next": "^15.1.4",
     "next-sanity": "^9.8.49",
